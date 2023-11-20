@@ -16,15 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include QMK_KEYBOARD_H
-#include "g/keymap_combo.h"
-
 enum layers {
     _WIN,
     _MAC,
     _NAV,
     _NUM
 };
+
+#include QMK_KEYBOARD_H
+#include "g/keymap_combo.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WIN] = LAYOUT_36(
