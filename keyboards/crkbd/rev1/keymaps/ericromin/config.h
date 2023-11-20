@@ -11,6 +11,7 @@
 
 //#define QUICK_TAP_TERM 0
 //#define TAPPING_TERM 100
+#define COMBO_ONLY_FROM_LAYER 0
 #define COMBO_COUNT 15
 #define COMBO_VARIABLE_LEN 15
 #define COMBO_TERM 50
