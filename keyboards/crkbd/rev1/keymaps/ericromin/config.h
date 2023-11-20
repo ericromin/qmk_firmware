@@ -11,7 +11,9 @@
 
 //#define QUICK_TAP_TERM 0
 //#define TAPPING_TERM 100
-#define COMBO_COUNT 13
+#define COMBO_COUNT 15
+#define COMBO_VARIABLE_LEN 15
+#define COMBO_TERM 50
 
 // #ifdef RGBLIGHT_ENABLE
 //     #define RGBLIGHT_EFFECT_BREATHING
