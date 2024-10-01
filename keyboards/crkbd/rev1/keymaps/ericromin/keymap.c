@@ -1,6 +1,5 @@
 /*
 Copyright 2019 @foostan
-Copyright 2020 Drashna Jaelre <@drashna>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,6 +25,27 @@ enum layers {
 #include QMK_KEYBOARD_H
 #include "g/keymap_combo.h"
 
+#ifdef RGBLIGHT_ENABLE
+    #include "rgblight.h"
+#endif
+
+#ifdef RGB_MATRIX_ENABLE
+    #include "quantum/rgb_matrix/rgb_matrix.h"
+#endif
+
+
+#define FWORD   LCTL(KC_RIGHT)      // Skip one word forward
+#define BWORD   LCTL(KC_LEFT)       // Skip one word back
+#define FTAB    LCTL(KC_TAB)        // Browser tab forward
+#define BTAB    LSFT(LCTL(KC_TAB))  // Browser tab back
+#define CTALDT  LCTL(LALT(KC_DEL))  // Ctrl-Alt-Delete
+#define COPY    LCTL(KC_C)
+#define CUT     LCTL(KC_X)
+#define PASTE   LCTL(KC_V)
+#define UNDO    LCTL(KC_Z)
+#define REDO    LCTL(KC_Y)
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WIN] = LAYOUT_36(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
@@ -35,29 +55,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
           KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-                         KC_LCTL, KC_LALT, KC_LSFT,     KC_ENT,  KC_SPC, KC_RGUI
+                         KC_LCTL, KC_LSFT, KC_LALT,     KC_ENT,  KC_SPC, KC_RGUI
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
   ),
 
-    [_MAC] = LAYOUT_36(
-  // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-       _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
-  // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
-  // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
-  // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-                         _______, _______, KC_LGUI,    _______, _______, KC_RALT
-  //                   ╰───────────────────────────╯ ╰──────────────────────────╯
-    ),
+//     [_MAC] = LAYOUT_36(
+//   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
+//        _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
+//   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
+//        _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
+//   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
+//        _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______,
+//   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
+//                          _______, _______, KC_LGUI,    _______, _______, KC_LALT
+//   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
+//     ),
 
     [_NAV] = LAYOUT_36(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-      TO(_WIN),TO(_MAC), XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_HOME, KC_PGDN, KC_PGUP,  KC_END,
+       _______, _______, _______, _______, _______,       REDO, KC_HOME, KC_PGDN, KC_PGUP,  KC_END,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
+       _______, _______, _______, _______, _______,    _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX,TG(_NUM),TG(_NAV), XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+          UNDO,     CUT,    COPY,   PASTE, _______,    _______,   BWORD,    BTAB,    FTAB,   FWORD,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                          _______, _______, _______,    _______, _______, _______
   //                   ╰───────────────────────────╯ ╰───────────────────────────╯
@@ -65,11 +85,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NUM] = LAYOUT_36(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-      TO(_WIN),TO(_MAC), XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,    KC_7,    KC_8,    KC_9, KC_MINS,
+       _______, _______, _______, _______, _______,    _______,    KC_7,    KC_8,    KC_9,  CTALDT,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,    KC_4,    KC_5,    KC_6,  KC_EQL,
+       _______, _______, _______, _______, _______,    _______,    KC_4,    KC_5,    KC_6,  KC_DOT,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX,TG(_NUM),TG(_NAV), XXXXXXX, XXXXXXX,    XXXXXXX,    KC_1,    KC_2,    KC_3, _______,
+       _______, _______, _______, _______, _______,    _______,    KC_1,    KC_2,    KC_3, _______,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                          _______, _______, _______,    _______, _______,    KC_0
   //                   ╰───────────────────────────╯ ╰───────────────────────────╯
@@ -87,3 +107,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //   //                   ╰───────────────────────────╯ ╰───────────────────────────╯
 //   )
 };
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch(get_highest_layer(state)) {
+        case _NAV:
+            setrgb(255, 0, 0); // Red
+            break;
+        case _NUM:
+            setrgb(0, 0, 255); // Blue
+            break;
+        case _MAC:
+            setrgb(255, 255, 0); // Yellow
+            break;
+        default:
+            setrgb(255, 255, 255); // White
+            break;
+    }
+    return state;
+}
+
+// void rgb_matrix_indicators_user(void) {
+//     switch (get_highest_layer(layer_state)) {
+//         case _NAV:
+//             rgb_matrix_set_color_all(255,0,0);
+//             break;
+//         case _NUM:
+//             rgb_matrix_set_color_all(0,0,255);
+//             break;
+//         case _MAC:
+//             rgb_matrix_set_color_all(255,255,0);
+//             break;
+//         default:
+//             rgb_matrix_set_color_all(255,255,255);
+//             break;
+//     }
+// }
